@@ -230,15 +230,6 @@ FROM customers
 GROUP BY acquisition_channel
 ORDER BY count DESC;
 
-/*
-- There are 7 countries, while US has the highest count with 34931 and the lowest belongs to AU with 7021
-- The age of 18 takes account for the largest share with 4889 customers, followed by age 36 with 4030 customers,
-    continues reduce until the age of 63 with 73 customers and the lowest customer segment is for the age of 69 with 16 customers.
-- There are no difference between the proportion of male and female, other by 3940.
-- loyalty_tier: Bronze is the crowded with 60276, follwed by silver with 24912, while gold is fairly lower with 11794, platium is the smallest
-- acqusition_channel: there are 5 channels, organic is dominant, referral is the lowest.
-*/
-
 /* Exporing table products */
 
 SELECT *
@@ -290,11 +281,6 @@ FROM events
 GROUP BY date_of_week
 ORDER BY date_of_week;
 
-/*
-- Category: there are 6 categories, while electionics is the highest with 455, and beauty is the lowest with 201
-- Brand: 100 brands, the frequency range from 10 to 32
-- is premium: half is premium and not
-- launch_date: In 2022-5 there are most new products with 76
 
 /* check standard distribution */
 WITH stats AS (

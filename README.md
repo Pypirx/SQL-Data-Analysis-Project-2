@@ -10,7 +10,7 @@ Analyze customer behavior, marketing performance, and product effectiveness to u
 4. What product and pricing factors most influence revenue and profitability?
 # 2. Dataset
 ## Dataset source
-- Source: Marketing & E-Commerce Analytics Dataset from Kaggle.
+- Source: [Marketing & E-Commerce Analytics Dataset from Kaggle](https://www.kaggle.com/datasets/geethasagarbonthu/marketing-and-e-commerce-analytics-dataset?select=customers.csv)
 - This is a realistic, multi-table synthetic dataset designed to simulate a modern e-commerce business environment.
 - It includes customer profiles, products, marketing campaigns, user behavior events, and purchase transactions.
 - The dataset supports a wide range of analytical applications, including EDA, funnel analysis, A/B testing, uplift modeling, customer segmentation, and product performance evaluation.
@@ -48,19 +48,16 @@ Analyze customer behavior, marketing performance, and product effectiveness to u
 - This suggests that a limited number of campaigns are responsible for a disproportionately large share of overall sales.
 - These top-performing campaigns should be analyzed further to identify the factors driving their success, such as targeting strategy, messaging, timing, or promotional offers.
 ### Recommendations
-- Increase budget allocation toward campaigns 5, 18, and 29.
-- Identify and replicate their successful attributes across future campaigns.
+- Increase budget allocation toward campaigns 5, 18, and 29. Identify and replicate their successful attributes across future campaigns.
 ### 2. High engagement does not necessarily translate into high revenue
 - Campaign 14 achieved the highest click-through rate (CTR), indicating strong audience engagement.
-- However, it was not among the top revenue-generating campaigns.
-- This highlights a gap between initial interest and final purchase behavior, suggesting that attracting clicks alone is not sufficient to maximize revenue.
+- However, it was not among the top revenue-generating campaigns. This highlights a gap between initial interest and final purchase behavior, suggesting that attracting clicks alone is not sufficient to maximize revenue.
 ### Recommendations
 Optimize high-CTR but low-revenue campaigns by:
 - Investigate why Campaign 14 generates strong engagement but weaker monetization.
 - Potential areas for improvement include: Landing page relevance, Offer alignment, Checkout experience, Audience targeting
 ### 3. Affiliate is the strongest revenue-generating channel
-- Among all marketing channels, Affiliate delivered the highest total revenue.
-- This indicates that affiliate traffic is highly monetizable and likely attracts users with stronger purchase intent.
+- Among all marketing channels, Affiliate delivered the highest total revenue. This indicates that affiliate traffic is highly monetizable and likely attracts users with stronger purchase intent.
 - In contrast, Social generated the lowest revenue, suggesting weaker monetization efficiency.
 ### Recommendations
 - Prioritize Affiliate for revenue growth
@@ -72,9 +69,7 @@ Optimize high-CTR but low-revenue campaigns by:
 ### Recommendations
 - Reassess Social channel strategy
 - Review Social campaigns to determine whether they should focus on:
-- Brand awareness rather than direct conversions, or
-- Improved audience targeting and creative optimization.
-- Consider reallocating budget if performance remains weak.
+- Brand awareness rather than direct conversions, or improved audience targeting and creative optimization.
 ## B. Customer Behavior
 ### 1. Customer sessions are relatively short and focused
 - The median session duration is approximately 199 seconds (around 3.3 minutes).
@@ -94,11 +89,7 @@ FROM total_time_visit;
 ### Recommendations
 Strengthen the Home page as a conversion gateway
 - Given its high dwell time, the Home page should effectively direct users toward key actions.
-- Consider:
-+ Personalized product recommendations
-+ Featured promotions
-+ Clear navigation paths
-+ Dynamic content tailored to visitor segments
+- Consider: Personalized product recommendations, Featured promotions
 ### 2. User journeys are concise
 - The median number of events per session is only 2 interactions.
 - Most sessions involve limited engagement, implying that users either find what they need quickly or leave early.
@@ -118,11 +109,7 @@ FROM events_per_session;
 ### Recommendations
 Encourage deeper session engagement
 - With only two median events per session, there is room to increase interaction depth.
-- Tactics may include:
-+ Cross-selling recommendations
-+ Related product suggestions
-+ Recently viewed items
-+ Interactive content
+- Tactics may include: Cross-selling recommendations, Related product suggestions, Recently viewed items.
 ### 3. Customer retention is strong
 - Nearly 100,000 customers returned for more than one session.
 - Returning customers visit the site an average of 10 times, indicating high engagement and repeat interest.
@@ -142,11 +129,7 @@ FROM tmp;
 ```
 ### Recommendations
 Segment first-time vs. returning visitors
-- Compare behavior between new and returning customers to identify differences in:
-+ Conversion rates
-+ Average order value
-+ Browsing depth
-- This will support more tailored marketing and UX strategies.
+- Compare behavior between new and returning customers to identify differences in: Conversion rates, Average order value, Browsing depth. This will support more tailored marketing and UX strategies.
 ### 4. Users predominantly move back and forth between product detail pages (PDP) and product listing pages (PLP)
 - Most common behavior: Users frequently navigate back and forth between PDP and PLP (Product Detail Page ↔ Product Listing Page).
 - Trend of returning to homepage: There are many sessions where users return to Home after browsing PLP or PDP, suggesting that users may not have found the desired product.
@@ -219,11 +202,6 @@ Protect and grow the core revenue segment
 + Bronze-tier customers
 + Customers aged 35–44
 + The U.S. market
-- These segments represent the foundation of current revenue performance.
-- Focus on:
-+ Personalized promotions
-+ Loyalty program progression
-+ Repeat purchase incentives
 ### 2. Premium customers generate value but also carry higher return risk
 - Although premium loyalty tiers typically represent highly valuable customers, the Platinum segment has the highest refund rate.
 - This suggests that high-value customers may also have higher expectations regarding product quality, service, or purchase fit.
@@ -247,10 +225,7 @@ ORDER BY refund_rate DESC;
 ### Recommendations
 Improve retention and upgrade pathways for Bronze customers
 - Since Bronze customers generate the largest revenue pool, there is significant opportunity to increase their lifetime value.
-- Develop strategies to move these customers into higher loyalty tiers through:
-+ Tier-based rewards
-+ Exclusive offers
-+ Personalized recommendations
+- Develop strategies to move these customers into higher loyalty tiers through: Tier-based rewards, Exclusive offers, Personalized recommendations
 - The goal is to convert volume into long-term value.
 ## D. Product And Revenue Analysis
 ### 1. Premium products deliver higher value—but at a higher risk
@@ -274,12 +249,7 @@ FROM tmp;
 ### Recommendations
 Reduce refund rates for premium products
 - Conduct a root-cause analysis to identify why premium products are returned more frequently.
-- Focus on:
-+ Product quality assurance
-+ More accurate product descriptions
-+ Enhanced product imagery and specifications
-+ Stronger post-purchase support
-- Improving the premium product experience can materially increase profitability.
+- Focus on: Product quality assurance, More accurate product descriptions, Enhanced product imagery and specifications
 ### 2. Discounts improve conversion, but not necessarily revenue
 - Higher discount levels are associated with higher purchase rates, indicating that discounts are effective at driving conversions.
 - However, discounted transactions do not consistently generate higher total revenue.
@@ -314,29 +284,7 @@ ORDER BY t.discount_level;
 ### Recommendations
 - Optimize discount strategy for profitability, not just conversion
 - Shift from broad discounting to more targeted promotional strategies.
-- Consider:
-+ Segment-specific discounts
-+ Category-based promotions
-+ Personalized offers for price-sensitive customers
-- The goal should be to maximize incremental revenue while protecting margins.
-### 3. A significant drop in activity occurred in February
-- Time-series analysis reveals a notable decline in event volume during February.
-- This may indicate seasonality, reduced campaign activity, or temporary market factors affecting customer engagement.
-```sql
-SELECT 
-    month,
-    fregency,
-    LAG(fregency) OVER (ORDER BY month) as pre_month,
-    fregency - LAG(fregency) OVER (ORDER BY month) as diff
-FROM (
-    SELECT 
-        DATE_TRUNC('month', timestamp) as month,
-        COUNT(*) as fregency
-    FROM events
-    GROUP BY month
-);
-```
-### Recommendations
+- Consider: Segment-specific discounts, Personalized offers for price-sensitive customers
 
 # Conclusion
 This project provided a comprehensive evaluation of marketing performance, customer behavior, and product effectiveness in a modern e-commerce environment. The analysis identified key revenue drivers, high-performing acquisition channels, valuable customer segments, and important behavioral patterns across the customer journey.

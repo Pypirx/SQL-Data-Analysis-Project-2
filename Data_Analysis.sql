@@ -1,11 +1,4 @@
-/* 
-Problem 1: Campaign Analysis 
-- Which campaign generated the highest revenue?
-- Which campaign achieved the highest conversion rate?
-- Which marketing channel (Email, Social, Paid Search, Display, or Affiliate) generated the most revenue?
-- Does expected uplift accurately reflect actual campaign effectiveness?
-- Which traffic source generated the highest volume of visitors, and how do conversion rate and customer quality vary across traffic sources?
-*/
+/* Problem 1: Campaign Analysis */
 
 /* Which campaign generated the highest revenue? */
 SELECT 
@@ -108,13 +101,7 @@ ORDER BY ctr DESC;
 
 ---------------------------------------
 
-/* 2. Customer behavior
-
-What is the most common customer journey (e.g., Home → Product Listing Page → Product Detail Page → Cart → Checkout)?
-What is the conversion rate at each stage of the purchase funnel?
-Which page type has the highest bounce rate?
-On average, how many events occur per session, and how long does a typical session last?
-Which page type do customers spend the most time on?
+/* 2. Customer behavior */
 
 /* Number of access to each page */
 
@@ -253,13 +240,7 @@ FROM tmp;
 -- add_to_cart rate is 0.75, while purchase_rate is 0.36, drop by .39
 
 ---------------------
-/* 
-3. Customer Segmentation Analysis
-Which customer segments (by age, country, gender, and loyalty tier) have the highest customer lifetime value (CLV)?
-Which acquisition channels generate customers with the highest purchase rates?
-Which customer segments have the highest refund rates?
-How does retention rate vary across customer acquisition cohorts?
-*/
+/* 3. Customer Segmentation Analysis */
 
 /* which customer segmentation by loytalty contributes to the revenue the most */
 SELECT 
@@ -343,11 +324,10 @@ FROM tmp
 ORDER BY refund_rate DESC;
 -- The platinum segment has the highest refund rate at 0.031
 
-/* Những khách hàng đăng ký ở các thời điểm khác nhau có mức độ quay lại khác nhau không? 
-- Những khách hàng đăng ký trong cùng một tháng có quay lại sử dụng sản phẩm trong các tháng tiếp theo hay không?
-*/
+/* /* Do customers who signed up at different times have different retention rates? */
+
 WITH cohort_base AS (
-    -- Xác định cohort đăng ký của từng khách hàng
+    -- Identify the signup cohort for each customer
     SELECT
         customer_id,
         DATE_TRUNC('month', signup_date) AS cohort_month
@@ -355,7 +335,7 @@ WITH cohort_base AS (
 ),
 
 customer_activity AS (
-    -- Xác định tháng hoạt động của khách hàng
+    -- Identify each customer's active months
     SELECT DISTINCT
         e.customer_id,
         DATE_TRUNC('month', e.timestamp) AS activity_month
@@ -363,7 +343,7 @@ customer_activity AS (
 ),
 
 cohort_activity AS (
-    -- Ghép cohort với hoạt động và tính số tháng kể từ đăng ký
+    -- Match cohorts with activity and calculate months since signup
     SELECT
         cb.cohort_month,
         ca.customer_id,
@@ -379,7 +359,7 @@ cohort_activity AS (
 ),
 
 cohort_size AS (
-    -- Quy mô ban đầu của từng cohort
+    -- Initial size of each cohort
     SELECT
         cohort_month,
         COUNT(DISTINCT customer_id) AS cohort_size
@@ -388,7 +368,7 @@ cohort_size AS (
 ),
 
 retention_table AS (
-    -- Số khách hàng active theo từng cohort và tháng
+    -- Number of active users by cohort and month
     SELECT
         cohort_month,
         month_number,
@@ -410,12 +390,7 @@ ORDER BY rt.cohort_month, rt.month_number;
 
 -------------------------------------
 
-/* 
-4. Product and Revenue Analysis
-- Which product categories contribute the most to total revenue?
-- Do premium products exhibit different refund rates compared to non-premium products?
-- How do discounts affect revenue and conversion rates?
-*/
+/* 4. Product and Revenue Analysis */
 
 /* Which product categories contribute to the revenue the most? */
 SELECT
@@ -497,49 +472,3 @@ FROM (
 );
 -- There was a remarkable decline in Feb */
 
------------------------------------------------
-
-/* CLV Analysis */
--- Step 1: Calculate some basic index about customers 
-SELECT
-    customer_id,
-    COUNT(DISTINCT transaction_id) AS total_orders,
-    SUM(gross_revenue) AS total_revenue,
-    AVG(gross_revenue) AS avg_order_value,
-    MIN(timestamp) AS first_purchase,
-    MAX(timestamp) AS last_purchase,
-    DATE_PART('day', MAX(timestamp) - MIN(timestamp)) + 1 AS customer_lifespan_days
-FROM transactions
-GROUP BY customer_id;
-
--- Step 2: Measure CLV
-WITH customer_metrics AS (
-    SELECT
-        customer_id,
-        COUNT(DISTINCT transaction_id) AS total_orders,
-        SUM(gross_revenue) AS total_revenue,
-        AVG(gross_revenue) AS avg_order_value,
-        DATE_PART('day', MAX(timestamp) - MIN(timestamp)) + 1 AS lifespan_days
-    FROM transactions
-    GROUP BY customer_id
-)
-
-SELECT
-    customer_id,
-    total_orders,
-    total_revenue,
-    avg_order_value,
-    lifespan_days,
-    ROUND(
-        avg_order_value *
-        (total_orders::numeric / NULLIF(lifespan_days, 0)) *
-        365,
-        2
-    ) AS annualized_clv
-FROM customer_metrics;
-
-
-
-
-
-SELECT * FROM events
